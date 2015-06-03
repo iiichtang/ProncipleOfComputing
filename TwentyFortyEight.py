@@ -54,12 +54,14 @@ class TwentyFortyEight:
     """
     Class to run the game logic.
     """
+    
     height = 0
     width = 0
     grid = []
     
 
     def __init__(self, grid_height, grid_width):
+        # replace with your code
         self.height = grid_height
         self.width = grid_width
         self.reset()
@@ -70,33 +72,33 @@ class TwentyFortyEight:
         initial tiles.
         """
         # replace with your code
-        width = self.get_grid_width()
-        height = self.get_grid_height()
+        self.grid[:] = []
+        local_width = self.get_grid_width()
+        local_height = self.get_grid_height()
         row_list = []
         
-        print width,height
+        #print local_height, local_width
         
-        for dummy_col in range(width):
+        for dummy_col in range(local_width):
             row_list.append(0)
         
-        for dummy_row in range(height):
+        for dummy_row in range(local_height):
             self.grid.append(list(row_list))
 
-        for dummy_num in range(0,2):
-            row = random.randrange(0, height)
-            col = random.randrange(0, width)
-            value = self.new_tile()
-            self.set_tile(row, col, value)
-        print self.grid
+        index_number = 0
+        while index_number < 5:
+            self.new_tile()
+            index_number += 1
+
+        #print self.grid
         
         return 0
-        
+
     def __str__(self):
         """
         Return a string representation of the grid for debugging.
         """
         # replace with your code
-
         return ""
 
     def get_grid_height(self):
@@ -119,7 +121,53 @@ class TwentyFortyEight:
         a new tile if any tiles moved.
         """
         # replace with your code
-        pass
+        local_list = []
+        if direction == 1:
+            for i in range(0, self.get_grid_width()):
+                for j in range(0,self.get_grid_height()):
+                    local_list.append(self.get_tile(j,i)) 
+                #print local_list
+                new_list = merge(local_list)
+                for j in range(0,self.get_grid_height()):
+                    self.set_tile(j,i,new_list[j])
+                local_list[:] = []
+            return 0
+        elif direction == 2:
+            for i in range(0, self.get_grid_width()):
+                for j in range(0,self.get_grid_height()):
+                    local_list.append(self.get_tile(j,i)) 
+                #print local_list
+                local_list.reverse()
+                new_list = merge(local_list)
+                new_list.reverse()
+                for j in range(0,self.get_grid_height()):
+                    self.set_tile(j,i,new_list[j])
+                local_list[:] = []
+            return 0
+        elif direction == 3:
+            for j in range(0,self.get_grid_height()):
+                for i in range(0, self.get_grid_width()):
+                    local_list.append(self.get_tile(j,i)) 
+                #print local_list
+                new_list = merge(local_list)
+                for i in range(0,self.get_grid_width()):
+                    self.set_tile(j,i,new_list[i])
+                local_list[:] = []
+            return 0
+        elif direction == 4:
+            for j in range(0,self.get_grid_height()):
+                for i in range(0, self.get_grid_width()):
+                    local_list.append(self.get_tile(j,i)) 
+                #print local_list
+                local_list.reverse()
+                new_list = merge(local_list)
+                new_list.reverse()
+                for i in range(0,self.get_grid_width()):
+                    self.set_tile(j,i,new_list[i])
+                local_list[:] = []
+            return 0
+        else:
+            return 0
 
     def new_tile(self):
         """
@@ -128,14 +176,25 @@ class TwentyFortyEight:
         4 10% of the time.
         """
         # replace with your code
-        #print ""
+        local_height = self.get_grid_height()
+        local_width = self.get_grid_width()
+        
+        row = random.randrange(0, local_height)
+        col = random.randrange(0, local_width)
+        
+        while self.get_tile(row,col) > 0:
+            row = random.randrange(0, local_height)
+            col = random.randrange(0, local_width)
+        
         tile_range = random.randrange(0, 10)
         #print tile_range
         if tile_range > 0:
             #print "2"
+            self.set_tile(row,col,2)
             return 2
         else:
             #print "4"
+            self.set_tile(row,col,2)
             return 4
 
     def set_tile(self, row, col, value):
@@ -153,6 +212,5 @@ class TwentyFortyEight:
         # replace with your code
         return self.grid[row][col]
 
-    
 
-poc_2048_gui.run_gui(TwentyFortyEight(5, 4))
+poc_2048_gui.run_gui(TwentyFortyEight(4, 4))

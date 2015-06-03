@@ -26,7 +26,7 @@ for row in range(GRID_HEIGHT):
         print polygon
         print text_pos
 
-'''
+
 
 
         width = 8
@@ -45,3 +45,11 @@ for row in range(GRID_HEIGHT):
             col = random.randrange(0, height)
             value = self.new_tile()
             self.set_tile(row, col, value)
+
+'''
+
+array=[0,10,20,40]
+for i in reversed(array):
+    print i
+array.reverse()
+print array
