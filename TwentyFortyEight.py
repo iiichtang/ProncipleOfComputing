@@ -58,6 +58,7 @@ class TwentyFortyEight:
     height = 0
     width = 0
     grid = []
+    empty_grid = []
     
 
     def __init__(self, grid_height, grid_width):
@@ -84,6 +85,9 @@ class TwentyFortyEight:
         
         for dummy_row in range(local_height):
             self.grid.append(list(row_list))
+
+        for i in range(0,local_width * local_height):
+            self.empty_grid.append(1)
 
         index_number = 0
         while index_number < 5:
@@ -121,6 +125,8 @@ class TwentyFortyEight:
         a new tile if any tiles moved.
         """
         # replace with your code
+        tile_move = 0
+        
         local_list = []
         if direction == 1:
             for i in range(0, self.get_grid_width()):
@@ -129,8 +135,12 @@ class TwentyFortyEight:
                 #print local_list
                 new_list = merge(local_list)
                 for j in range(0,self.get_grid_height()):
+                    if new_list[j] != self.get_tile(j,i):
+                        tile_move = 1
                     self.set_tile(j,i,new_list[j])
                 local_list[:] = []
+            if tile_move == 1:
+                self.new_tile()
             return 0
         elif direction == 2:
             for i in range(0, self.get_grid_width()):
@@ -143,6 +153,8 @@ class TwentyFortyEight:
                 for j in range(0,self.get_grid_height()):
                     self.set_tile(j,i,new_list[j])
                 local_list[:] = []
+            if tile_move == 1:
+                self.new_tile()
             return 0
         elif direction == 3:
             for j in range(0,self.get_grid_height()):
@@ -153,6 +165,8 @@ class TwentyFortyEight:
                 for i in range(0,self.get_grid_width()):
                     self.set_tile(j,i,new_list[i])
                 local_list[:] = []
+            if tile_move == 1:
+                self.new_tile()
             return 0
         elif direction == 4:
             for j in range(0,self.get_grid_height()):
@@ -165,6 +179,8 @@ class TwentyFortyEight:
                 for i in range(0,self.get_grid_width()):
                     self.set_tile(j,i,new_list[i])
                 local_list[:] = []
+            if tile_move == 1:
+                self.new_tile()
             return 0
         else:
             return 0
@@ -179,6 +195,7 @@ class TwentyFortyEight:
         local_height = self.get_grid_height()
         local_width = self.get_grid_width()
         
+        index = random.randrange(0, len(self.empty_grid))
         row = random.randrange(0, local_height)
         col = random.randrange(0, local_width)
         
