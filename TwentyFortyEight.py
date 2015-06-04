@@ -1,5 +1,6 @@
 """
 Clone of 2048 game.
+code for project 2
 """
 
 import poc_2048_gui
@@ -54,16 +55,13 @@ class TwentyFortyEight:
     """
     Class to run the game logic.
     """
-    grid_height = 0
-    grid_width = 0
-    grid = []
 
     def __init__(self, grid_height, grid_width):
         # replace with your code
-        self.grid_height = grid_height
-        self.grid_width = grid_width
+        self._tfe_grid_height = grid_height
+        self._tfe_grid_width = grid_width
+        self._tfe_grid = []
         self.reset()
-        pass
 
     def reset(self):
         """
@@ -71,8 +69,7 @@ class TwentyFortyEight:
         initial tiles.
         """
         # replace with your code
-        self.grid[:] = []
-        self.empty_ptr = 0
+        self._tfe_grid[:] = []
         local_width = self.get_grid_width()
         local_height = self.get_grid_height()
         row_list = []
@@ -83,120 +80,149 @@ class TwentyFortyEight:
             row_list.append(0)
 
         for dummy_row in range(local_height):
-            self.grid.append(list(row_list))
+            self._tfe_grid.append(list(row_list))
 
         index_number = 0
         while index_number < 2:
             self.new_tile()
             index_number += 1
 
-        #print self.grid
-
-        pass
 
     def __str__(self):
         """
         Return a string representation of the grid for debugging.
         """
         # replace with your code
-
-        return str(self.grid)
+        return str(self._tfe_grid)
 
     def get_grid_height(self):
         """
         Get the height of the board.
         """
         # replace with your code
-        return self.grid_height
+        return self._tfe_grid_height
 
     def get_grid_width(self):
         """
         Get the width of the board.
         """
         # replace with your code
-        return self.grid_width
+        return self._tfe_grid_width
 
+    def get_direction(self, direction):
+        """
+        Transform the direction into number
+        """
+        if direction == "UP" or direction == 1:
+            direction = 1
+        elif direction == "DOWN"  or direction == 2:
+            direction = 2
+        elif direction == "LEFT"  or direction == 3:
+            direction = 3
+        elif direction == "RIGHT"  or direction == 4:
+            direction = 4
+        return direction
+        
+    
     def move(self, direction):
         """
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
         # replace with your code
-        tile_move = 0
 
-        if direction == "UP":
-            direction = 1
-        elif direction == "DOWN":
-            direction = 2
-        elif direction == "LEFT":
-            direction = 3
-        elif direction == "RIGHT":
-            direction = 4
+        direction = self.get_direction(direction)
 
-        local_list = []
-        if direction == UP:
-            for i in range(0, self.get_grid_width()):
-                for j in range(0,self.get_grid_height()):
-                    local_list.append(self.get_tile(j,i))
-                #print local_list
-                new_list = merge(local_list)
-                for j in range(0,self.get_grid_height()):
-                    if new_list[j] != self.get_tile(j,i):
-                        tile_move = 1
-                    self.set_tile(j,i,new_list[j])
-                local_list[:] = []
-            if tile_move == 1:
-                self.new_tile()
-            pass
-        elif direction == DOWN:
-            for i in range(0, self.get_grid_width()):
-                for j in range(0,self.get_grid_height()):
-                    local_list.append(self.get_tile(j,i))
-                #print local_list
-                local_list.reverse()
-                new_list = merge(local_list)
-                new_list.reverse()
-                for j in range(0,self.get_grid_height()):
-                    if new_list[j] != self.get_tile(j,i):
-                        tile_move = 1
-                    self.set_tile(j,i,new_list[j])
-                local_list[:] = []
-            if tile_move == 1:
-                self.new_tile()
-            pass
+        if direction == 1:
+            self.move_up()
+        elif direction == 2:
+            self.move_down()
         elif direction == 3:
-            for j in range(0,self.get_grid_height()):
-                for i in range(0, self.get_grid_width()):
-                    local_list.append(self.get_tile(j,i))
+            self.move_left()
+        elif direction == 4:
+            self.move_right()
+
+    def move_up(self):
+        """
+        move up
+        """
+        tile_move = 0
+        local_list = []
+        for grid_col in range(0, self.get_grid_width()):
+                for grid_row in range(0,self.get_grid_height()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
                 #print local_list
                 new_list = merge(local_list)
-                for i in range(0,self.get_grid_width()):
-                    if new_list[i] != self.get_tile(j,i):
+                for grid_row in range(0,self.get_grid_height()):
+                    if new_list[grid_row] != self.get_tile(grid_row,grid_col):
                         tile_move = 1
-                    self.set_tile(j,i,new_list[i])
+                    self.set_tile(grid_row,grid_col,new_list[grid_row])
                 local_list[:] = []
-            if tile_move == 1:
-                self.new_tile()
-            pass
-        elif direction == 4:
-            for j in range(0,self.get_grid_height()):
-                for i in range(0, self.get_grid_width()):
-                    local_list.append(self.get_tile(j,i))
+        if tile_move == 1:
+            self.new_tile()
+
+    def move_down(self):
+        """
+        move down
+        """
+        tile_move = 0
+        local_list = []
+        for grid_col in range(0, self.get_grid_width()):
+                for grid_row in range(0,self.get_grid_height()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
                 #print local_list
                 local_list.reverse()
                 new_list = merge(local_list)
                 new_list.reverse()
-                for i in range(0,self.get_grid_width()):
-                    if new_list[i] != self.get_tile(j,i):
-                        print j,i,new_list[i],self.get_tile(j,i)
+                for grid_row in range(0,self.get_grid_height()):
+                    if new_list[grid_row] != self.get_tile(grid_row,grid_col):
                         tile_move = 1
-                    self.set_tile(j,i,new_list[i])
+                    self.set_tile(grid_row,grid_col,new_list[grid_row])
                 local_list[:] = []
-            if tile_move == 1:
-                self.new_tile()
-            pass
-        else:
-            pass
+        if tile_move == 1:
+            self.new_tile()
+
+    def move_left(self):
+        """
+        move left
+        """
+        tile_move = 0
+        local_list = []
+        for grid_row in range(0,self.get_grid_height()):
+                for grid_col in range(0, self.get_grid_width()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
+                #print local_list
+                new_list = merge(local_list)
+                for grid_col in range(0,self.get_grid_width()):
+                    if new_list[grid_col] != self.get_tile(grid_row,grid_col):
+                        tile_move = 1
+                    self.set_tile(grid_row,grid_col,new_list[grid_col])
+                local_list[:] = []
+        if tile_move == 1:
+            self.new_tile()
+
+    def move_right(self):
+        """
+        move right
+        """
+        tile_move = 0
+        local_list = []
+        for grid_row in range(0,self.get_grid_height()):
+                for grid_col in range(0, self.get_grid_width()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
+                #print local_list
+                local_list.reverse()
+                new_list = merge(local_list)
+                new_list.reverse()
+
+                for grid_col in range(0,self.get_grid_width()):
+                    if new_list[grid_col] != self.get_tile(grid_row,grid_col):
+                        tile_move = 1
+                    self.set_tile(grid_row,grid_col,new_list[grid_col])
+                local_list[:] = []
+        if tile_move == 1:
+            self.new_tile()
+
 
     def new_tile(self):
         """
@@ -209,26 +235,26 @@ class TwentyFortyEight:
         tile_range = random.randrange(0, 10)
         emp_ptr = 0
 
-        for i in range(0, self.get_grid_width()):
-            for j in range(0,self.get_grid_height()):
-                if self.grid[j][i] == 0:
+        for grid_col in range(0, self.get_grid_width()):
+            for grid_row in range(0,self.get_grid_height()):
+                if self._tfe_grid[grid_row][grid_col] == 0:
                     emp_ptr += 1
 
         index = random.randrange(1,emp_ptr + 1)
 
-        for i in range(0, self.get_grid_width()):
-            for j in range(0,self.get_grid_height()):
-                if self.grid[j][i] == 0:
+        for grid_col in range(0, self.get_grid_width()):
+            for grid_row in range(0,self.get_grid_height()):
+                if self._tfe_grid[grid_row][grid_col] == 0:
                     local_index += 1
                     if local_index == index:
 
-                        print emp_ptr,j,i,self.grid[j][i]
+                        #print emp_ptr,grid_row,grid_col,self.grid[grid_row][grid_col]
                         if tile_range > 0:
-                            self.set_tile(j,i,2)
-                            pass
+                            self.set_tile(grid_row,grid_col,2)
+                            return None
                         else:
-                            self.set_tile(j,i,4)
-                            pass
+                            self.set_tile(grid_row,grid_col,4)
+                            return None
 
         #print tile_range
 
@@ -238,14 +264,13 @@ class TwentyFortyEight:
         Set the tile at position row, col to have the given value.
         """
         # replace with your code
-        self.grid[row][col] = value
-        pass
+        self._tfe_grid[row][col] = value
 
     def get_tile(self, row, col):
         """
         Return the value of the tile at position row, col.
         """
         # replace with your code
-        return self.grid[row][col]
+        return self._tfe_grid[row][col]
 
 poc_2048_gui.run_gui(TwentyFortyEight(4, 4))

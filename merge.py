@@ -1,5 +1,6 @@
 """
 Merge function for 2048 game.
+code for project 1
 """
 
 def merge(line):

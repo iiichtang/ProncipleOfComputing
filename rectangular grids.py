@@ -1,5 +1,6 @@
 """
 Draw an indexed grid
+The course example of grid in python
 """
 
 import simplegui
