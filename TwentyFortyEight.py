@@ -19,7 +19,6 @@ OFFSETS = {UP: (1, 0),
            LEFT: (0, 1),
            RIGHT: (0, -1)}
 
-
 def merge(line):
     """
     Function that merges a single row or column in 2048.
@@ -36,22 +35,21 @@ def merge(line):
             pass
         elif line2[ptr] == 0:
             line2[ptr] += line[length]
-        elif line2[ptr] == line[length]:
+        elif line2[ptr] == line[length] :
             line2[ptr] += line[length]
             line2.append(0)
-            ptr += 1
+            ptr +=1
         else:
             line2.append(line[length])
             ptr += 1
 
-    ptr += 1
+    ptr +=1
 
-    while ptr < length_line:
+    while ptr < length_line :
         line2.append(0)
-        ptr += 1
+        ptr +=1
 
     return line2
-
 
 class TwentyFortyEight:
     """
@@ -71,23 +69,15 @@ class TwentyFortyEight:
         initial tiles.
         """
         # replace with your code
-        self._tfe_grid[:] = []
-        local_width = self.get_grid_width()
-        local_height = self.get_grid_height()
         row_list = []
 
-        # print local_height, local_width
+        #print local_height, local_width
+        self._tfe_grid = [[0 for dummy_col in range(self.get_grid_width())]
+                           for dummy_row in range(self.get_grid_height())]
 
-        for dummy_col in range(local_width):
-            row_list.append(0)
-
-        for dummy_row in range(local_height):
-            self._tfe_grid.append(list(row_list))
-
-        index_number = 0
-        while index_number < 2:
+        for dummy_index in range(0,2):
             self.new_tile()
-            index_number += 1
+
 
     def __str__(self):
         """
@@ -116,14 +106,15 @@ class TwentyFortyEight:
         """
         if direction == "UP" or direction == 1:
             direction = 1
-        elif direction == "DOWN" or direction == 2:
+        elif direction == "DOWN"  or direction == 2:
             direction = 2
-        elif direction == "LEFT" or direction == 3:
+        elif direction == "LEFT"  or direction == 3:
             direction = 3
-        elif direction == "RIGHT" or direction == 4:
+        elif direction == "RIGHT"  or direction == 4:
             direction = 4
         return direction
-
+        
+    
     def move(self, direction):
         """
         Move all tiles in the given direction and add
@@ -149,15 +140,15 @@ class TwentyFortyEight:
         tile_move = 0
         local_list = []
         for grid_col in range(0, self.get_grid_width()):
-            for grid_row in range(0, self.get_grid_height()):
-                local_list.append(self.get_tile(grid_row, grid_col))
-            # print local_list
-            new_list = merge(local_list)
-            for grid_row in range(0, self.get_grid_height()):
-                if new_list[grid_row] != self.get_tile(grid_row, grid_col):
-                    tile_move = 1
-                self.set_tile(grid_row, grid_col, new_list[grid_row])
-            local_list[:] = []
+                for grid_row in range(0,self.get_grid_height()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
+                #print local_list
+                new_list = merge(local_list)
+                for grid_row in range(0,self.get_grid_height()):
+                    if new_list[grid_row] != self.get_tile(grid_row,grid_col):
+                        tile_move = 1
+                    self.set_tile(grid_row,grid_col,new_list[grid_row])
+                local_list[:] = []
         if tile_move == 1:
             self.new_tile()
 
@@ -168,17 +159,17 @@ class TwentyFortyEight:
         tile_move = 0
         local_list = []
         for grid_col in range(0, self.get_grid_width()):
-            for grid_row in range(0, self.get_grid_height()):
-                local_list.append(self.get_tile(grid_row, grid_col))
-            # print local_list
-            local_list.reverse()
-            new_list = merge(local_list)
-            new_list.reverse()
-            for grid_row in range(0, self.get_grid_height()):
-                if new_list[grid_row] != self.get_tile(grid_row, grid_col):
-                    tile_move = 1
-                self.set_tile(grid_row, grid_col, new_list[grid_row])
-            local_list[:] = []
+                for grid_row in range(0,self.get_grid_height()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
+                #print local_list
+                local_list.reverse()
+                new_list = merge(local_list)
+                new_list.reverse()
+                for grid_row in range(0,self.get_grid_height()):
+                    if new_list[grid_row] != self.get_tile(grid_row,grid_col):
+                        tile_move = 1
+                    self.set_tile(grid_row,grid_col,new_list[grid_row])
+                local_list[:] = []
         if tile_move == 1:
             self.new_tile()
 
@@ -188,16 +179,16 @@ class TwentyFortyEight:
         """
         tile_move = 0
         local_list = []
-        for grid_row in range(0, self.get_grid_height()):
-            for grid_col in range(0, self.get_grid_width()):
-                local_list.append(self.get_tile(grid_row, grid_col))
-            # print local_list
-            new_list = merge(local_list)
-            for grid_col in range(0, self.get_grid_width()):
-                if new_list[grid_col] != self.get_tile(grid_row, grid_col):
-                    tile_move = 1
-                self.set_tile(grid_row, grid_col, new_list[grid_col])
-            local_list[:] = []
+        for grid_row in range(0,self.get_grid_height()):
+                for grid_col in range(0, self.get_grid_width()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
+                #print local_list
+                new_list = merge(local_list)
+                for grid_col in range(0,self.get_grid_width()):
+                    if new_list[grid_col] != self.get_tile(grid_row,grid_col):
+                        tile_move = 1
+                    self.set_tile(grid_row,grid_col,new_list[grid_col])
+                local_list[:] = []
         if tile_move == 1:
             self.new_tile()
 
@@ -207,21 +198,22 @@ class TwentyFortyEight:
         """
         tile_move = 0
         local_list = []
-        for grid_row in range(0, self.get_grid_height()):
-            for grid_col in range(0, self.get_grid_width()):
-                local_list.append(self.get_tile(grid_row, grid_col))
-            # print local_list
-            local_list.reverse()
-            new_list = merge(local_list)
-            new_list.reverse()
+        for grid_row in range(0,self.get_grid_height()):
+                for grid_col in range(0, self.get_grid_width()):
+                    local_list.append(self.get_tile(grid_row,grid_col))
+                #print local_list
+                local_list.reverse()
+                new_list = merge(local_list)
+                new_list.reverse()
 
-            for grid_col in range(0, self.get_grid_width()):
-                if new_list[grid_col] != self.get_tile(grid_row, grid_col):
-                    tile_move = 1
-                self.set_tile(grid_row, grid_col, new_list[grid_col])
-            local_list[:] = []
+                for grid_col in range(0,self.get_grid_width()):
+                    if new_list[grid_col] != self.get_tile(grid_row,grid_col):
+                        tile_move = 1
+                    self.set_tile(grid_row,grid_col,new_list[grid_col])
+                local_list[:] = []
         if tile_move == 1:
             self.new_tile()
+
 
     def new_tile(self):
         """
@@ -235,27 +227,28 @@ class TwentyFortyEight:
         emp_ptr = 0
 
         for grid_col in range(0, self.get_grid_width()):
-            for grid_row in range(0, self.get_grid_height()):
+            for grid_row in range(0,self.get_grid_height()):
                 if self._tfe_grid[grid_row][grid_col] == 0:
                     emp_ptr += 1
 
-        index = random.randrange(1, emp_ptr + 1)
+        index = random.randrange(1,emp_ptr + 1)
 
         for grid_col in range(0, self.get_grid_width()):
-            for grid_row in range(0, self.get_grid_height()):
+            for grid_row in range(0,self.get_grid_height()):
                 if self._tfe_grid[grid_row][grid_col] == 0:
                     local_index += 1
                     if local_index == index:
 
-                        # print emp_ptr,grid_row,grid_col,self.grid[grid_row][grid_col]
+                        #print emp_ptr,grid_row,grid_col,self.grid[grid_row][grid_col]
                         if tile_range > 0:
-                            self.set_tile(grid_row, grid_col, 2)
+                            self.set_tile(grid_row,grid_col,2)
                             return None
                         else:
-                            self.set_tile(grid_row, grid_col, 4)
+                            self.set_tile(grid_row,grid_col,4)
                             return None
 
-                            # print tile_range
+        #print tile_range
+
 
     def set_tile(self, row, col, value):
         """
@@ -270,6 +263,5 @@ class TwentyFortyEight:
         """
         # replace with your code
         return self._tfe_grid[row][col]
-
 
 poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
