@@ -24,7 +24,6 @@ def merge(line):
     """
     Function that merges a single row or column in 2048.
     """
-    # replace with your code
     line2 = []
     line2.append(0)
     ptr = 0
@@ -59,7 +58,7 @@ class TwentyFortyEight:
     """
 
     def __init__(self, grid_height, grid_width):
-        # replace with your code
+        # init the class
         self._tfe_grid_height = grid_height
         self._tfe_grid_width = grid_width
         self._tfe_grid = []
@@ -70,13 +69,10 @@ class TwentyFortyEight:
         Reset the game so the grid is empty except for two
         initial tiles.
         """
-        # replace with your code
         self._tfe_grid[:] = []
         local_width = self.get_grid_width()
         local_height = self.get_grid_height()
         row_list = []
-
-        # print local_height, local_width
 
         for dummy_col in range(local_width):
             row_list.append(0)
@@ -93,21 +89,18 @@ class TwentyFortyEight:
         """
         Return a string representation of the grid for debugging.
         """
-        # replace with your code
         return str(self._tfe_grid)
 
     def get_grid_height(self):
         """
         Get the height of the board.
         """
-        # replace with your code
         return self._tfe_grid_height
 
     def get_grid_width(self):
         """
         Get the width of the board.
         """
-        # replace with your code
         return self._tfe_grid_width
 
     def get_direction(self, direction):
@@ -129,8 +122,6 @@ class TwentyFortyEight:
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
-        # replace with your code
-
         direction = self.get_direction(direction)
 
         if direction == 1:
