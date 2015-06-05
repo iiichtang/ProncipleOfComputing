@@ -24,31 +24,29 @@ def merge(line):
     """
     Function that merges a single row or column in 2048.
     """
-    line2 = []
-    line2.append(0)
-    ptr = 0
-    length_line = len(line)
+    merged_line = [0]
+    line_ptr = 0
 
-    for length in range(length_line):
+    for length in range(len(line)):
         if line[length] == 0:
             pass
-        elif line2[ptr] == 0:
-            line2[ptr] += line[length]
-        elif line2[ptr] == line[length]:
-            line2[ptr] += line[length]
-            line2.append(0)
-            ptr += 1
+        elif merged_line[line_ptr] == 0:
+            merged_line[line_ptr] += line[length]
+        elif merged_line[line_ptr] == line[length]:
+            merged_line[line_ptr] += line[length]
+            merged_line.append(0)
+            line_ptr += 1
         else:
-            line2.append(line[length])
-            ptr += 1
+            merged_line.append(line[length])
+            line_ptr += 1
 
-    ptr += 1
+    line_ptr += 1
 
-    while ptr < length_line:
-        line2.append(0)
-        ptr += 1
+    while line_ptr < len(line):
+        merged_line.append(0)
+        line_ptr += 1
 
-    return line2
+    return merged_line
 
 
 class TwentyFortyEight:
@@ -70,7 +68,7 @@ class TwentyFortyEight:
         """
         self._tfe_grid = [[0 for dummy_col in range(self.get_grid_width())]
                           for dummy_row in range(self.get_grid_height())]
-        # create a grid_height x grid_width grid with value 0
+        # create a grid_height by grid_width grid with value 0
 
         for dummy_index in range(0, 2):
             self.new_tile()
@@ -199,8 +197,8 @@ class TwentyFortyEight:
         else:
             self.set_tile(emp_list[index][0], emp_list[index][1], 4)
             return None
-            # if tile_range = 1-9, set value to 2 (90%)
-            # if tile_range = 0, set value to 4 (10%)
+        # if tile_range = 1-9, set value to 2 (90%)
+        # if tile_range = 0, set value to 4 (10%)
 
     def set_tile(self, row, col, value):
         """
